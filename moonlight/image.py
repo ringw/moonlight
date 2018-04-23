@@ -23,6 +23,17 @@ from __future__ import print_function
 
 import tensorflow as tf
 
+from moonlight.preprocessing import rotation
+
+
+class PageImage(object):
+
+  def __init__(self, png_contents):
+    with tf.name_scope('PageImage'):
+      self.original_image = decode_music_score_png(png_contents)
+      self.rotation = rotation.Rotation(self.original_image)
+      self.image = self.rotation.image
+
 
 def decode_music_score_png(contents):
   """Reads a music score image.

@@ -85,7 +85,10 @@ py_library(
     name = "image",
     srcs = ["image.py"],
     srcs_version = "PY2AND3",
-    deps = [],  # tensorflow dep
+    deps = [
+        "//moonlight/preprocessing:rotation",
+        # tensorflow dep
+    ],
 )
 
 py_library(
