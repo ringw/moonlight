@@ -128,3 +128,5 @@ class StafflinePatchesDoFn(beam.DoFn):
   def finish_bundle(self):
     self.session.close()
     del self.session
+
+Test change please ignore

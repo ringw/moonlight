@@ -1,3 +1,5 @@
+load("//javascript/tools/nodejs:nodejs_rules.bzl", "nodejs_binary")
+
 # Description:
 # Generated training data for OMR.
 package(default_visibility = ["//moonlight:__subpackages__"])
@@ -8,12 +10,12 @@ py_library(
     name = "generation",
     srcs = ["generation.py"],
     deps = [
+        "@com_google_protobuf//:protobuf_python",
+        # apache-beam dep
         "//moonlight:engine",
         "//moonlight/protobuf:protobuf_py_pb2",
         "//moonlight/staves:staffline_distance",
         "//moonlight/staves:staffline_extractor",
-        "@com_google_protobuf//:protobuf_python",
-        # apache-beam dep
         # numpy dep
         # tensorflow dep
     ],

@@ -12,12 +12,12 @@ py_library(
     srcs = ["staffline_patches_dofn.py"],
     srcs_version = "PY2AND3",
     deps = [
+        # apache-beam dep
         "//moonlight:image",
         "//moonlight/staves",
         "//moonlight/staves:removal",
         "//moonlight/staves:staffline_extractor",
         "//moonlight/util:patches",
-        # apache-beam dep
         # tensorflow dep
     ],
 )
@@ -43,9 +43,9 @@ py_binary(
     srcs_version = "PY2AND3",
     deps = [
         ":staffline_patches_dofn",
-        "//moonlight/pipeline:pipeline_flags",
         # absl dep
         # apache-beam dep
+        "//moonlight/pipeline:pipeline_flags",
         # tensorflow dep
     ],
 )
@@ -70,9 +70,9 @@ py_library(
     data = ["kmeans_labeler_template.html"],
     srcs_version = "PY2AND3",
     deps = [
-        "//moonlight/protobuf:protobuf_py_pb2",
         # pillow dep
         # mako dep
+        "//moonlight/protobuf:protobuf_py_pb2",
         # numpy dep
         # six dep
         # tensorflow dep
@@ -85,9 +85,9 @@ py_test(
     srcs_version = "PY2AND3",
     deps = [
         ":kmeans_labeler_request_handler",
-        "//moonlight/protobuf:protobuf_py_pb2",
         # absl/testing dep
         # mako dep
+        "//moonlight/protobuf:protobuf_py_pb2",
         # numpy dep
         # tensorflow dep
     ],
@@ -99,10 +99,10 @@ py_binary(
     srcs_version = "PY2AND3",
     deps = [
         ":kmeans_labeler_request_handler",
-        "//moonlight/protobuf:protobuf_py_pb2",
         # pillow dep
         # absl dep
         # mako dep
+        "//moonlight/protobuf:protobuf_py_pb2",
         # numpy dep
         # six dep
         # tensorflow dep
