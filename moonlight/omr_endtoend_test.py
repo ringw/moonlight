@@ -20,21 +20,23 @@ from __future__ import print_function
 import os.path
 
 from absl.testing import absltest
+import moonlight
+from moonlight import conversions
 import librosa
 from lxml import etree
 import numpy as np
 from PIL import Image
-
 from protobuf import music_pb2
 from tensorflow.python.platform import resource_loader
-from moonlight import conversions
-from moonlight import engine
 
 
 class OmrEndToEndTest(absltest.TestCase):
 
   def setUp(self):
-    self.engine = engine.OMREngine()
+    self.engine = moonlight.create_engine()
+
+  def tearDown(self):
+    self.engine.close()
 
   def testNoteSequence(self):
     filename = os.path.join(resource_loader.get_data_files_path(),

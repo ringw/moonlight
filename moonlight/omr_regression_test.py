@@ -23,7 +23,7 @@ import re
 from absl.app import flags
 from absl.testing import absltest
 
-from moonlight import engine
+import moonlight
 from moonlight.protobuf import musicscore_pb2
 from moonlight.score import measures
 from moonlight.score import reader
@@ -37,9 +37,14 @@ FLAGS = flags.FLAGS
 
 class OmrRegressionTest(absltest.TestCase):
 
+  def setUp(self):
+    self.engine = moonlight.create_engine()
+
+  def tearDown(self):
+    self.engine.close()
+
   def testIMSLP01963_106_multipleStaffSizes(self):
-    page = engine.OMREngine().run(
-        _get_imslp_path('IMSLP01963-106.png')).page[0]
+    page = self.engine.run(_get_imslp_path('IMSLP01963-106.png')).page[0]
     self.assertEqual(len(page.system), 3)
 
     for system in page.system:
@@ -50,7 +55,7 @@ class OmrRegressionTest(absltest.TestCase):
       self.assertEqual(system.staff[3].staffline_distance, 22)
 
   def testIMSLP00823_000_structure(self):
-    page = engine.OMREngine().run(_get_imslp_path('IMSLP00823-000.png')).page[0]
+    page = self.engine.run(_get_imslp_path('IMSLP00823-000.png')).page[0]
     self.assertEqual(len(page.system), 6)
 
     self.assertEqual(len(page.system[0].staff), 2)
@@ -73,7 +78,7 @@ class OmrRegressionTest(absltest.TestCase):
     self.assertEqual(len(page.system[5].bar), 6)
 
   def testIMSLP00823_008_mergeStandardAndBeginRepeatBars(self):
-    page = engine.OMREngine().run(_get_imslp_path('IMSLP00823-008.png')).page[0]
+    page = self.engine.run(_get_imslp_path('IMSLP00823-008.png')).page[0]
     self.assertEqual(len(page.system), 6)
 
     self.assertEqual(len(page.system[0].staff), 2)
@@ -100,7 +105,7 @@ class OmrRegressionTest(absltest.TestCase):
     self.assertEqual(len(page.system[5].bar), 7)
 
   def testIMSLP39661_keySignature_CSharpMinor(self):
-    page = engine.OMREngine().run(_get_imslp_path('IMSLP39661-000.png')).page[0]
+    page = self.engine.run(_get_imslp_path('IMSLP39661-000.png')).page[0]
     score_reader = reader.ScoreReader()
     score_reader.read_system(page.system[0])
     treble_sig = score_reader.score_state.staves[0].get_key_signature()
@@ -113,7 +118,7 @@ class OmrRegressionTest(absltest.TestCase):
 
   def testIMSLP00023_015_doubleNoteDots(self):
     """Tests note dots in system[1].staff[1] of the image."""
-    page = engine.OMREngine().run(_get_imslp_path('IMSLP00023-015.png')).page[0]
+    page = self.engine.run(_get_imslp_path('IMSLP00023-015.png')).page[0]
     self.assertEqual(len(page.system), 6)
 
     system = page.system[1]

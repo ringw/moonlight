@@ -98,6 +98,10 @@ class OMREngine(object):
         # name scope.
         self.glyph_classifier = glyph_classifier_fn(self.structure)
 
+  def close(self):
+    """Frees resources associated with the engine."""
+    self.session.close()
+
   def run(self, input_pngs, output_notesequence=False):
     """Converts input PNGs into a `Score` message.
 

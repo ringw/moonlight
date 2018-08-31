@@ -7,6 +7,14 @@ package(
 
 licenses(["notice"])  # Apache 2.0
 
+# Main module for interactive use.
+py_library(
+    name = "moonlight",
+    srcs = ["__init__.py"],
+    srcs_version = "PY2AND3",
+    deps = [":engine_flags"],
+)
+
 # The OMR engine. Entry point for running OMR.
 py_library(
     name = "engine",
@@ -28,6 +36,17 @@ py_library(
         # numpy dep
         # six dep
         # tensorflow dep
+    ],
+)
+
+# Configures the engine from the command line.
+py_library(
+    name = "engine_flags",
+    srcs_version = "PY2AND3",
+    deps = [
+        ":engine",
+        "//moonlight/glyphs:saved_classifier_fn",
+        # absl dep
     ],
 )
 
@@ -54,7 +73,7 @@ py_test(
     shard_count = 4,
     srcs_version = "PY2AND3",
     deps = [
-        ":engine",
+        ":moonlight",
         "@magenta//protobuf:music_py_pb2",
         # pillow dep
         # absl/testing dep
@@ -75,7 +94,7 @@ py_test(
     shard_count = 4,
     srcs_version = "PY2AND3",
     deps = [
-        ":engine",
+        ":moonlight",
         # absl/testing dep
         "//moonlight/protobuf:protobuf_py_pb2",
         "//moonlight/score:reader",
