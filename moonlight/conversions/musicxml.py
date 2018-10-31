@@ -23,6 +23,7 @@ from __future__ import division
 from __future__ import print_function
 
 import copy
+import datetime
 import re
 
 import librosa
@@ -209,6 +210,13 @@ class MusicXMLScore(object):
                     for system in page.system)
     part_list = _create_part_list(num_parts)
     self.score = etree.Element('score-partwise', version=MUSICXML_VERSION)
+    self.score.set('version', '3.1')
+    encoding = etree.SubElement(
+        etree.SubElement(self.score, 'identification'),
+        'encoding')
+    etree.SubElement(encoding, 'software').text = 'Moonlight OMR'
+    etree.SubElement(
+        encoding, 'encoding-date').text = datetime.date.today().isoformat()
     self.score.append(part_list)
 
   def get_measure(self, part_ind, measure_ind):
